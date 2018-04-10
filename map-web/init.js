@@ -21,17 +21,64 @@ function initMap()
 
 function initColor()
 {
-  clr.push("#ff0000");
-  clr.push("#0000ff");
-  clr.push("#3cb371 ");
-  clr.push("#ee82ee");
-  clr.push("#ffa500");
-  clr.push("#6a5acd"); 
+ clr.push("#00FFFF");
+clr.push("#7FFFD4");
+clr.push("#000000");
+clr.push("#FFEBCD");
+clr.push("#0000FF");
+clr.push("#8A2BE2");
+clr.push("#A52A2A");
+clr.push("#DEB887");
+clr.push("#5F9EA0");
+clr.push("#7FFF00");
+clr.push("#D2691E");
+clr.push("#FF7F50");
+clr.push("#6495ED");
+clr.push("#FFF8DC");
+clr.push("#DC143C");
+clr.push("#00FFFF");
+clr.push("#00008B");clr.push("#8B008B");
+clr.push("#556B2F");clr.push("#FF8C00");
+clr.push("#9932CC");clr.push("#8B0000");
+clr.push("#E9967A");clr.push("#8FBC8F");
+clr.push("#00CED1");clr.push("#9400D3");
+clr.push("#FF1493");clr.push("#00BFFF");
+clr.push("#B22222");clr.push("#FFFAF0");
+clr.push("#228B22");clr.push("#FF00FF");
+clr.push("#FFD700");clr.push("#DAA520");
+clr.push("#008000");clr.push("#ADFF2F");
+clr.push("#FF69B4");clr.push("#CD5C5C");
+clr.push("#4B0082");clr.push("#90EE90");
+clr.push("#FFB6C1");clr.push("#FFA07A");
+clr.push("#20B2AA");clr.push("#00FF00");
+clr.push("#32CD32");clr.push("#FAF0E6");
+clr.push("#FF00FF");clr.push("#800000");
+clr.push("#66CDAA");clr.push("#0000CD");
+clr.push("#BA55D3");clr.push("#9370DB");
+clr.push("#3CB371");clr.push("#7B68EE");
+clr.push("#00FA9A");clr.push("#48D1CC");
+clr.push("#C71585");clr.push("#FFA500");
+clr.push("#FF4500");clr.push("#DA70D6");
+clr.push("#EEE8AA");clr.push("#98FB98");
 
-  for(var k=0; k<50; k++)
+clr.push("#AFEEEE");clr.push("#DB7093");
+clr.push("#FFEFD5");clr.push("#FFDAB9");
+clr.push("#CD853F");clr.push("#FFC0CB");
+clr.push("#DDA0DD");clr.push("#B0E0E6");
+clr.push("#800080");clr.push("#663399");
+clr.push("#FF0000");clr.push("#BC8F8F");
+clr.push("#4169E1");clr.push("#8B4513");
+clr.push("#FA8072");clr.push("#F4A460");
+clr.push("#2E8B57");clr.push("#FFF5EE");
+clr.push("#A0522D");clr.push("#C0C0C0");
+clr.push("#87CEEB");
+clr.push("#6A5ACD");
+  
+
+  //for(var k=0; k<50; k++)
     {
     // 0 - 10
-      clr.push(  '#'+Math.floor(Math.random()*16777215).toString(16) );
+    //  clr.push(  '#'+Math.floor(Math.random()*16777215).toString(16) );
     }
 
 }
