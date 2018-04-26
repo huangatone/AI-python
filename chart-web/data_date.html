@@ -180,17 +180,13 @@
                            <td> <label for="subscribeNews">Day report</label></td>
                            <td> <label for="subscribeNews">Week report</label></td>
                            <td> <label for="subscribeNews">Month report</label></td>
-                           <td> <label for="subscribeNews">Year report</label></td>
+                           
                          </tr>
                          <tr>
-                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
-                            <label for="subscribeNews">Show</label></td>
-                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
-                            <label for="subscribeNews">Show</label></td>
-                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
-                            <label for="subscribeNews">Show</label></td>
-                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()" >
-                            <label for="subscribeNews">Show</label></td>
+                           <td> <button id="checkBox"  onclick="showDailyReport()">  Save</button></td>
+                           <td> <button id="checkBox"  onclick="showWeeklyReport()">  Save</button></td>
+                           <td> <button id="checkBox"  onclick="showMonthlyReport()">  Save</button></td>
+                           
                          </tr>
                          <tr>
                            <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
@@ -199,8 +195,7 @@
                             <label for="subscribeNews">Stacked</label></td>
                            <td> <input id="checkBox" type="checkbox"onclick="myFunction()">
                             <label for="subscribeNews">Stacked</label></td>
-                           <td> <input id="checkBox" type="checkbox"onclick="myFunction()">
-                            <label for="subscribeNews">Stacked</label></td>
+                          
                          </tr>
                 </table>
             </div>
@@ -210,9 +205,7 @@
 
             <button class="accordion"  Sibling= "menu5">5. About</button>
             <div class="panel" id ="menu5">
-                  <p>Mingming Wei.<br>
-                  EMAIL:
-                   </p>
+                  <p> Demo to use Google Charts and save as a pdf </p>
             </div>
       </div>
      
@@ -220,8 +213,8 @@
     <div id="b" class="split split-horizontal">
      <div class="tab">
       <button class="tablinks" onclick="openCity(event, 'day_div')">Daily</button>
-      <button class="tablinks" onclick="openCity(event, 'week_div')">Week</button>
-      <button class="tablinks" onclick="openCity(event, 'month_div')">Month</button>
+      <button class="tablinks" onclick="openCity(event, 'week_div')">Weekly</button>
+      <button class="tablinks" onclick="openCity(event, 'month_div')">Monthly</button>
     </div>
      <div id="day_div" class="tabcontent">
  

@@ -5,6 +5,10 @@ var clr=[];
 
 var band_marker = new Map();
 
+var daily_arr = new Array();
+var weekly_arr = new Array();
+var monthly_arr = new Array();
+
 
 function formatTable( headers )
     {
@@ -192,19 +196,19 @@ function GeneratorData()
 
      for (var [key, value] of daily_map.entries()) 
      {
-       build_chart(key, value,"day_div");       
+       build_chart(key, value,"day_div" , daily_arr);       
      }
 
    //get weekly report;
    for (var [key, value] of weekly_map.entries()) 
      {
-       build_week_chart(key, value,"week_div");       
+       build_chart(key, value,"week_div",weekly_arr);       
      }
 
    //get monthly report;
    for (var [key, value] of monthly_map.entries()) 
      {
-       build_week_chart(key, value,"month_div");       
+       build_chart(key, value,"month_div",monthly_arr);       
      }
 
 
@@ -214,90 +218,7 @@ function GeneratorData()
 
 
 
-function build_week_chart(title_text ,data_map, div_name)
-{
-
-  var data_day = new google.visualization.DataTable();
-   data_day.addColumn('string', 'Date');
-   data_day.addColumn('number', 'Good');
-   data_day.addColumn('number', 'Bad');
-   data_day.addColumn('number', 'worst'); 
-
-    console.log(title_text ,data_map);
-
-  for (var [key, value] of data_map.entries()) 
-   {
-        //console.log(key + ' = ' + value);
-        var g = key.split(",");        
-        //print(g);
-        //console.log(g);
-
-        var lt_value = value;
-
-        var n1,n2,n3;
-        n1 = 0;
-        n2 = 0; 
-        n3 = 0;
-
-        //console.log(key, lt_value.length);
-        for (let i=0; i<lt_value.length; i++) 
-        {
-          var result = parseFloat(lt_value[i]) / 100.0;
-          //console.log(lt_value[i], result);
-          if( result < 0.75)
-            n1 +=1;
-          else if( result < 0.80)
-            n2 +=1;
-          else
-            n3 +=1;
-        }
-
-        data_day.addRow([ g[g.length-1],n1,n2,n3]);
-       
-    }
-
-    var options = {
-       isStacked: true,
-        width: 400,
-        height: 320,
-        seriesType: 'bars',
-        legend: { position: 'top', maxLines: 4 },
-        bar: { groupWidth: '25%' },
-              
-        title: title_text,
-        
-        vAxis: {
-            viewWindow: {
-                min: 0,
-                max: 100
-            }
-        }, 
-        hAxis: { 
-        direction: -1, 
-        slantedText: true, 
-        slantedTextAngle: 90 // here you can even use 180 
-    }   
-         
-       
-      };
-
-
-
-    var cc = document.getElementById(div_name);
-    
-    var dv = document.createElement('div');
-    dv.setAttribute("id", "day_div_1");
-    dv.setAttribute("class","split content");
-    dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
-    cc.appendChild(dv);
-      
-      var chart = new google.visualization.ComboChart(dv);
-
-      chart.draw(data_day, options);
-}
-
-
-function build_chart(title_text ,data_map, div_name)
+function build_chart(title_text ,data_map, div_name, arr)
 {
 
   var data_day = new google.visualization.DataTable();
@@ -370,13 +291,21 @@ function build_chart(title_text ,data_map, div_name)
     
     var dv = document.createElement('div');
     dv.setAttribute("id", "day_div_1");
-    dv.setAttribute("class","split content");
+    dv.setAttribute("class","Chart_Div");
     dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
     cc.appendChild(dv);
       
       var chart = new google.visualization.ComboChart(dv);
 
+      // Wait for the chart to finish drawing before calling the getImageURI() method.
+      google.visualization.events.addListener(chart, 'ready', function () {
+        
+       // console.log(chart.getImageURI());
+      });
+
+
       chart.draw(data_day, options);
+      arr.push(chart);
 }
 
 
@@ -418,7 +347,7 @@ function CreateMap_selector()  {
     }
   if( checkboxesChecked.length == 0 || lat == "" || lng == "")
       {
-          alert("Please select group/lat/lng");
+          alert("Please select group/Date/Rate");
           return;
       }
     
@@ -551,22 +480,34 @@ function ShowDays()
 
 
 
-function ShowWeeks()
+function showReport(arr, file_name)
 {
-  
+  var myWindow = window.open("", "MsgWindow", "width=1000,height=1000,menubar=yes,titlebar=yes");
+  myWindow.document.write("<p>This is ");
+  myWindow.document.write( file_name + " report!</p>");
+
+  for (var n = 0; n < arr.length; n++)
+  {
+    var chart = arr[n];
+    console.log(chart.getImageURI());
+     var img  = new Image();
+     img.setAttribute('src', chart.getImageURI());
+     myWindow.document.body.appendChild(img);
+  }
+  myWindow.print();
 }
-function ShowMonths()
+function showDailyReport()
 {
-  
+  showReport(daily_arr,'daily');
 }
-function ShowYears()
+function showWeeklyReport()
 {
-  
+  showReport(weekly_arr,'weekly');
 }
 
-function ShowDaysInStack()
+function showMonthlyReport()
 {
-
+showReport(monthly_arr,'monthly');
 }
 function ShowWeeksInStack()
 {
