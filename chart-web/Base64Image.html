@@ -1,0 +1,33 @@
+<html>
+
+
+<head>
+	<title> Base64 to Image</title>
+</head>
+
+<body>
+	Base64: <br>
+ <textarea rows="10" cols="100" id="base64_src"> sss</textarea>
+ <br>
+  	<button class="tablinks" onclick="doChange()">Submit</button>
+<br>
+
+  	<script>
+
+    function doChange()
+    {
+    	var img  = new Image();
+    	 var cc = document.getElementById("base64_src");
+    	 console.log(cc.value);
+     	img.setAttribute('src', cc.value);
+     	document.body.appendChild(img);
+
+     	var br = document.createElement("BR");
+     	document.body.appendChild(br)
+    }
+    
+</script>
+
+
+</body>
+</html>
