@@ -342,7 +342,7 @@ function build_weekly_chart(title_text ,data_map, div_name, arr)
           else
             n3 +=1;
         }
-
+        var n4 = n1 +n2+n3;
         data_day.addRow([ g[g.length-1],n1,n2,n3]);
        
     }
@@ -580,7 +580,7 @@ function showReport(arr, file_name)
      img.setAttribute('src', chart.getImageURI());
      myWindow.document.body.appendChild(img);
   }
-  myWindow.print();
+  //myWindow.print();
 }
 function showDailyReport()
 {
