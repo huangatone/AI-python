@@ -251,12 +251,13 @@ function build_chart(title_text ,data_map, div_name, arr)
             n3 +=1;
         }
 
-        data_day.addRow([ g[g.length-1],n1,n2,n3]);
+        var n4 = n1+n2+n3;
+        data_day.addRow([ g[g.length-1],n1/n4,n2/n4,n3/n4]);
        
     }
 
     var options = {
-       isStacked: true,
+       isStacked: 'percent',
         width: 400,
         height: 320,
         seriesType: 'bars',
@@ -343,12 +344,13 @@ function build_weekly_chart(title_text ,data_map, div_name, arr)
             n3 +=1;
         }
         var n4 = n1 +n2+n3;
-        data_day.addRow([ g[g.length-1],n1,n2,n3]);
+        data_day.addRow([ g[g.length-1],n1/n4,n2/n4,n3/n4]);
        
     }
 
     var options = {
-       isStacked: true,
+       //isStacked: true,
+       isStacked:'percent',
         width: 400,
         height: 320,
         seriesType: 'bars',
@@ -359,8 +361,10 @@ function build_weekly_chart(title_text ,data_map, div_name, arr)
         
         vAxis: {
             viewWindow: {
-                min: 0,                
-            }
+                min: 0,  
+                max:1,              
+            },
+           
         }, 
         hAxis: { 
         direction: -1, 
