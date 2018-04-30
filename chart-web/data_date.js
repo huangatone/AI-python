@@ -10,6 +10,13 @@ var weekly_arr = new Array();
 var monthly_arr = new Array();
 
 
+var colors = [
+   { color: 'green' },  //high
+   { color: 'yellow' },      //medium
+   { color: 'red' },   //low
+   ];
+
+
 function formatTable( headers )
     {
     var table =document.getElementById("paremeterTable");
@@ -246,6 +253,8 @@ function build_chart(title_text ,data_map, div_name, arr)
         //console.log(key, lt_value.length);
         for (let i=0; i<lt_value.length; i++) 
         {
+          if(Array.isArray(lt_value[i]) )
+            continue;
           var result = parseFloat(lt_value[i]) / 100.0;
           //console.log(lt_value[i], result);
           if( result < 0.75)
@@ -272,15 +281,15 @@ function build_chart(title_text ,data_map, div_name, arr)
         
         vAxis: {
             viewWindow: {
-                min: 0,
-                max: 100
+                min: 0,                
             }
         }, 
         hAxis: { 
         direction: -1, 
         slantedText: true, 
         slantedTextAngle: 90 // here you can even use 180 
-    }   
+    } ,
+    series: colors,
          
        
       };
