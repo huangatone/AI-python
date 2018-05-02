@@ -217,8 +217,11 @@ function build_chart(title_text ,data_map, div_name, arr)
   var data_day = new google.visualization.DataTable();
    data_day.addColumn('string', 'Date');
    data_day.addColumn('number', 'Good');
+   data_day.addColumn({type:'string', role:'annotation'});
    data_day.addColumn('number', 'Bad');
+   data_day.addColumn({type:'string', role:'annotation'});
    data_day.addColumn('number', 'worst'); 
+   data_day.addColumn({type:'string', role:'annotation'});
 
  //   console.log(title_text ,data_map);
 
@@ -252,7 +255,10 @@ function build_chart(title_text ,data_map, div_name, arr)
         }
 
         var n4 = n1+n2+n3;
-        data_day.addRow([ g[g.length-1],n1/n4,n2/n4,n3/n4]);
+        var n1_t = (n1/n4 * 100).toString() + '%';
+        var n2_t = (n2/n4 * 100).toString() + '%';
+        var n3_t = (n3/n4 * 100).toString() + '%';
+        data_day.addRow([ g[g.length-1],n1/n4,n1_t,n2/n4,n2_t,n3/n4,n3_t]);
        
     }
 
