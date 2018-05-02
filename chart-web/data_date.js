@@ -255,17 +255,17 @@ function build_chart(title_text ,data_map, div_name, arr)
         }
 
         var n4 = n1+n2+n3;
-        var n1_t = (n1/n4 * 100).toString() + '%';
-        var n2_t = (n2/n4 * 100).toString() + '%';
-        var n3_t = (n3/n4 * 100).toString() + '%';
+        var n1_t = (n1/n4 * 100).toFixed(2).toString() + '%';
+        var n2_t = (n2/n4 * 100).toFixed(2).toString() + '%';
+        var n3_t = (n3/n4 * 100).toFixed(2).toString() + '%';
         data_day.addRow([ g[g.length-1],n1/n4,n1_t,n2/n4,n2_t,n3/n4,n3_t]);
        
     }
 
     var options = {
        isStacked: 'percent',
-        width: 400,
-        height: 320,
+        width: 500,
+        height: 600,
         seriesType: 'bars',
         legend: { position: 'top', maxLines: 4 },
         bar: { groupWidth: '25%' },
@@ -274,7 +274,7 @@ function build_chart(title_text ,data_map, div_name, arr)
         
         vAxis: {
             viewWindow: {
-                min: 0,                
+                min: 0.5,                
             }
         }, 
         hAxis: { 
