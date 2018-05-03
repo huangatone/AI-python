@@ -10,10 +10,9 @@ function init() {
   
 }
 
-function initMap()
+function initGoogleMap()
 {
-    //<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQMC-XDcbgfPtySwq9J4AL2uG8tZXuTUo&callback=initMap"></script>
-   map = new google.maps.Map(document.getElementById('div2'), {
+  map = new google.maps.Map(document.getElementById('div2'), {
     zoom: 6,
     center: {lat:43.643794, lng:-79.613486}
     });
@@ -21,9 +20,9 @@ function initMap()
 
 function initColor()
 {
- clr.push("#00FFFF");
-clr.push("#7FFFD4");
-clr.push("#000000");
+ clr.push("#FF0000");
+clr.push("#008040");
+clr.push("#ECFE1B");
 clr.push("#FFEBCD");
 clr.push("#0000FF");
 clr.push("#8A2BE2");
