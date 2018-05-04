@@ -18,7 +18,7 @@ nn = datetime.datetime.now().strftime("%Y/%m/%d")
 workbook = xlsxwriter.Workbook('test-'+ ss+'.xlsx')
 #global worksheet
 worksheet = workbook.add_worksheet()
-print("group","team","date","min", "max" ,"count")
+print("group","Sector","date","min", "max" ,"count")
 
 curIndex = 1
 
@@ -43,13 +43,16 @@ cur = 1
 nn = "4/9/18"
 
 write_excel(cur,"W1594", "Alpha",nn,nrow,0.1,0.75)
+write_excel(cur,"W1594", "Gamma",nn,nrow,0.1,0.75)
+write_excel(cur,"W1594", "Gamma",nn,nrow,0.7,0.9)
 
 nrow = 36
 write_excel(cur,"W1594", "Beta",nn,nrow,0.75,0.8)
 
 nrow = 18
 write_excel(cur,"w541013", "Alpha",nn,nrow,0,0.75)
-
+write_excel(cur,"w541013", "Gamma",nn,nrow,0.1,0.75)
+write_excel(cur,"w541013", "Gamma",nn,nrow,0.7,0.9)
 
 nrow =40
 write_excel(cur,"w541013", "Beta",nn,nrow,0,0.75)

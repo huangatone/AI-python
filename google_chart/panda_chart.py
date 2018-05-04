@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 from datetime import date
 import matplotlib.pyplot as plt
-
+from PIL import Image
 
 #这里指定excel文件
 src_file_name='test2018.xlsx'
@@ -19,7 +19,7 @@ xl = pd.read_excel('test-2018.xlsx') #默认打开第一表格
 #xl = pd.read_excel( src_file_name, sheetname=src_sheet_name)
 
 #这里设定列(columns)
-group_columns = ['Group','Team']
+group_columns = ['Group','Sector']
 
 #设定日期列
 date_column = 'Date'
@@ -31,6 +31,9 @@ date_list = {}
 sum_list = []
 total_list = []
 
+#保存最总 Alfra，betal，gamma
+final_data_map = {}
+
     
 #开始读数据，一行一行读
 for i in xl.index:
@@ -40,57 +43,94 @@ for i in xl.index:
             tmp = tmp + ","
         tmp = tmp  + xl[j][i]
     #print(xl[date_column][i])
-    #得到日期的周
     dt = pd.to_datetime(xl[date_column][i])
     weekNumber = dt.isocalendar()[1]
     tmp = tmp + ","+ str(weekNumber)
    
     
     all_key = date_list.keys()
-    if(  tmp in all_key):#如果已经有分组
+    if(  tmp in all_key):       
         date_list[tmp] = date_list[tmp] + "," +str ( xl[data_column][i] ) 
-    else:#没有分组
+    else:        
         date_list[tmp] =str ( xl[data_column][i] ) 
 
-#数组分组结束
-innnn = 0
-total = len(date_list)
-#开始计算<75% <80 <100%的个数
+#计算 Alpha Beta， Gamma小于.7的百分比
 for key,value in date_list.items():
     #print( key , "= ", value)
     arr = value.split(",")
     #print(arr)
-    print(float(arr[0]))
+    #print(float(arr[0]))
     n1 = 0
     n2 = 0
     n3 = 0
     for nnn in arr:
         v = float(nnn)
-        if(v < 75):
+        if(v < 70):
             n1 +=1
         elif(v<80):
             n2 += 1
         else:
             n3 += 1
             
-    print(n1,n2,n3)
-    y = [n1,n2,n3]
-    adddd = 321 + innnn
+    #print(n1,n2,n3)
+    
+    #保存<70数字的百分比  
+    key_arr = key.split(",")
+    final_key = key_arr[0] + "," + key_arr[2]
+    all_key = final_data_map.keys()
+    if(  final_key in all_key):
+        exist_dict = final_data_map[final_key]
+        exist_dict[key_arr[1]] = n1/(n1+n2+n3)
+        final_data_map[final_key] = exist_dict
+    else:   
+        exist_dict = {}
+        exist_dict[key_arr[1]] = n1/(n1+n2+n3)
+        final_data_map[final_key] =exist_dict
 
 
+#取每个分组，同一周的三个值
+for key,value in final_data_map.items():
     # Data to plot
-    #设置标题
+    #print("final", value)
+    dd = value
+    n1 = dd['Alpha']
+    n2 = dd['Beta']
+    n3 = dd['Gamma']
+    
     labels = ['<70%', '<80%', '<100%'] 
-    #设定颜色
     colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
+    
+    if(n1 < 0.7):
+        colors[0] = "green"
+    elif(n1 <0.8):
+        colors[0] = "yellow"
+    else:
+        colors[0] = "red"
+        
+    if(n2 < 0.7):
+        colors[1] = "green"
+    elif(n2 <0.8):
+        colors[1] = "yellow"
+    else:
+        colors[1] = "red"
+        
+    if(n3 < 0.7):
+        colors[2] = "green"
+    elif(n3 <0.8):
+        colors[2] = "yellow"
+    else:
+        colors[2] = "red"
+        
     explode = (0.1, 0, 0, 0)  # explode 1st slice
- 
+    y = [10,10,10]
     #plt.subplot(adddd )
-    #画饼
     plt.pie(y, labels=labels, colors=colors)
    
     plt.title("pie")
     innnn +=1
     plt.title(key)
-
+    plt.savefig(key + '.png')
+    Image.open(key +'.png').save(key +'.png','png')
     plt.show()
+    
+    
