@@ -28,7 +28,7 @@ def write_excel( row, g,t,d,n ,range1, range2):
         worksheet.write(curIndex, 0, g)
         worksheet.write(curIndex, 1, t)
         worksheet.write(curIndex, 2, d)
-        worksheet.write(curIndex, 3, str( random.uniform(range1, range2)*100 ) + "%")
+        worksheet.write(curIndex, 3, str( random.uniform(range1, range2)*100 ) )
         curIndex +=1
     print(g,t,d,range1, range2 ,n)
     return
