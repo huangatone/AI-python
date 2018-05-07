@@ -20,7 +20,7 @@ xl = pd.read_excel('test-2018.xlsx') #默认打开第一表格
 
 #这里设定列(columns)
 group_columns = ['Group','Sector']
-
+sectors = ['Alpha','Beta','Gamma']
 #设定日期列
 date_column = 'Date'
 #这里设定数值列 
@@ -91,13 +91,13 @@ for key,value in date_list.items():
 #取每个分组，同一周的三个值
 for key,value in final_data_map.items():
     # Data to plot
-    #print("final", value)
+    print("final", value)
     dd = value
-    n1 = dd['Alpha']
-    n2 = dd['Beta']
-    n3 = dd['Gamma']
+    n1 = dd[ sectors[0] ]
+    n2 = dd[ sectors[1] ]
+    n3 = dd[ sectors[2] ]
     
-    labels = ['<70%', '<80%', '<100%'] 
+    labels = [sectors[0], sectors[1], sectors[2]] 
     colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
     
     if(n1 < 0.7):

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>C3 JS </title>
+ 
+  <style>
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    padding: 8px;
+    background-color: #F6F6F6;
+    box-sizing: border-box;
+  }
+
+ 
+
+  </style>
+
+  <!-- Load c3.css -->
+  <link href="my.css" rel="stylesheet" >
+  <!-- Load c3.css -->
+  <link href="c3/c3.css" rel="stylesheet">
+
+  <!-- Load d3.js and c3.js -->
+ 
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="c3/c3.min.js"></script>
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+
+  <script src= "data_date.js"> </script>
+  <script src= "init_data_date.js"> </script>
+  <script src="split.js"></script>
+   
+
+</head>
+<body onload="init();">
+    <div id="a" class="split split-horizontal">
+      <div id="c" class="split content">
+            <button class="accordion" Sibling= "menu1">1. Select File </button>
+            <div class="panel" id ="menu1">
+                <form >     
+                 <fieldset>
+                    <h5>excel File</h5> 
+                  <input type="file" id="file" ng-model="csvFile"  onchange='ExcelExport(event)'/>
+
+                   </fieldset>
+                </form>
+            </div>
+
+            <button class="accordion"  Sibling= "menu2">2. Choose elements </button>
+
+            <div class="panel" id ="menu2">
+                <h4 id = "highband"> Choose Column for each item </h2>
+                <button onclick="CreateMap_selector()" height = "30px">Generate </button>
+                <table border = 1 id = "paremeterTable">
+                    <tr id = "field_name"> 
+                        <td> Group </td> <td> Date </td>  <td> Rate </td>
+                    </tr>       
+                </table>
+            </div>
+
+            <button class="accordion"  Sibling= "menu3">3. Create Markers</button>
+            <div class="panel" id ="menu3">
+                
+                <table border = 1 id = "mapTable">
+                        <tr>
+                           <td> <label for="subscribeNews">Day report</label></td>
+                           <td> <label for="subscribeNews">Week report</label></td>
+                           <td> <label for="subscribeNews">Month report</label></td>
+                           
+                         </tr>
+                         <tr>
+                           <td> <button id="checkBox"  onclick="showDailyReport()">  Save</button></td>
+                           <td> <button id="checkBox"  onclick="showWeeklyReport()">  Save</button></td>
+                           <td> <button id="checkBox"  onclick="showMonthlyReport()">  Save</button></td>
+                           
+                         </tr>
+                         <tr>
+                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
+                            <label for="subscribeNews">Stacked</label></td>
+                           <td> <input id="checkBox" type="checkbox" onclick="myFunction()">
+                            <label for="subscribeNews">Stacked</label></td>
+                           <td> <input id="checkBox" type="checkbox"onclick="myFunction()">
+                            <label for="subscribeNews">Stacked</label></td>
+                          
+                         </tr>
+                </table>
+            </div>
+
+            <button class="accordion"  Sibling= "piechart">4. Show Chart</button>
+            <div  id="piechart" style="width: 300px; height: 300px; display: none"></div>
+
+            <button class="accordion"  Sibling= "menu5">5. About</button>
+            <div class="panel" id ="menu5">
+                  <p> Demo to use Google Charts and save as a pdf </p>
+            </div>
+      </div>
+     
+    </div>
+    <div id="b" class="split split-horizontal">
+     <div class="tab">
+      <button class="tablinks" onclick="openCity(event, 'day_div')">Daily</button>
+      <button class="tablinks" onclick="openCity(event, 'week_div')">Weekly</button>
+      <button class="tablinks" onclick="openCity(event, 'month_div')">Monthly</button>
+    </div>
+     <div id="day_div" class="tabcontent">
+ 
+      </div>
+
+      <div id="week_div" class="tabcontent">
+       
+      </div>
+
+      <div id="month_div" class="tabcontent">
+       
+      </div>
+   
+    </div>
+</body>
+
+<script>
+
+    initMenu();
+    Split(['#a', '#b'], {
+        sizes: [20, 80],
+      gutterSize: 8,
+      cursor: 'col-resize'
+    })
+
+   
+
+  
+
+    
+</script>
+</html>
