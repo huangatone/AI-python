@@ -222,6 +222,7 @@ function build_chart(title_text ,data_map, div_name, arr)
       ]
     }
 });
+
   
 }
 function build_weekly_chart(title_text ,data_map, div_name, arr)
@@ -238,7 +239,8 @@ function build_weekly_chart(title_text ,data_map, div_name, arr)
             ['data2', 'data3']
         ],
       axes: {
-        data2: 'y3' // ADD
+        data2: 'y3', // ADD
+        
       },
       types: {
         data3: 'bar' ,// ADD
@@ -249,9 +251,61 @@ function build_weekly_chart(title_text ,data_map, div_name, arr)
     axis: {
       y2: {
         show: true // ADD
-      }
+      },
+      rotated: true
     }
 });
+
+
+  var data_value = [];
+  data_value.push( ['x' , 0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+  data_value.push( ['data -1' , 140, 80, 88, 71, 48, 94, 16, 2, 45, 31]);
+  data_value.push( ['data -2' , 86, 149, 40, 193, 190, 15, 75, 15, 164, 59]);
+  data_value.push( ['data -3 ' , 155, 49, 93, 84, 133, 5, 87, 89, 115, 57]);
+  data_value.push( ['data -4' , 137, 134, 190, 169, 149, 10, 10, 10, 37, 121]);
+  data_value.push( ['data -5' , 130, 71, 129, 63, 144, 142, 152, 196, 172, 154]);
+  data_value.push( ['data -6' , 52, 30, 180, 94, 42, 178, 147, 21, 45, 13]);
+ 
+
+  var chart3 = c3.generate({
+        bindto: '#month_div',
+       data: {
+          x:'x',
+          columns:data_value,
+          labels: true
+       },
+       type:'spline',
+      axes: {
+         data1: 'y',
+         data2: 'y2',
+       },
+        axis: {
+         x: {
+           label: 'X Label'
+         },
+         y: {
+           label: {
+           text: 'Y Axis Label',
+           position: 'outer-middle'
+           },
+           min:-100,
+           max:400
+         },
+         y2: {
+           show: true,
+           label: {
+           text: 'Y2 Axis Label',
+           position: 'outer-middle'
+           }
+         }
+       } ,
+       legend: {
+          show: true,
+          position: 'right'
+        }
+     });
+
+
 }
 
 function CreateMap_selector()  {
