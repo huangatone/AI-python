@@ -58,3 +58,7 @@ sub_set = df[ (df['Region']=='East') & (df['Item']=='Pencil')  ]
 
 #get the number of some rows
 threhold_count = df[ (df['Region']==East)  ].shape[0]
+
+
+#get items of a column
+print(df['Region'].unique())
