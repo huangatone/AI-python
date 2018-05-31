@@ -13,9 +13,60 @@ function init() {
 function initGoogleMap()
 {
   map = new google.maps.Map(document.getElementById('div2'), {
-    zoom: 6,
-    center: {lat:43.643794, lng:-79.613486}
+    zoom: 12,
+    center: {lat:43.667625, lng:-79.367928}
     });
+
+
+  var triangleCoords = [
+            //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
+            {lat:43.75192, lng:-79.636296},
+            {lat:43.58196, lng:-79.54477},           
+                      
+            {lat:43.79401, lng:-79.118304},
+            {lat:43.85472, lng:-79.171026},  
+            {lat:43.75192, lng:-79.636296}
+           // {lat:43.709606, lng:-79.351491}
+        ];
+
+        // Construct the polygon.
+        var bermudaTriangle = new google.maps.Polyline({
+          path: triangleCoords,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        bermudaTriangle.setMap(map);
+
+        var pixelSize = Math.pow(2, -map.getZoom());
+        console.log(pixelSize);
+
+
+         // Construct the polygon, including both paths.
+        
+
+
+       /* var pos1 = new google.maps.LatLng(43.709606,-79.351491);
+        var pos2 = new google.maps.LatLng(43.668917,-79.338747);
+        console.log( google.maps.geometry.spherical.computeDistanceBetween(pos1,pos2) );
+
+
+         var lct_pos = new google.maps.LatLng(43.748015, -79.347933);
+
+        var cityCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: map,
+              center: lct_pos,
+              radius:  100
+            });*/
+
+
+
 }
 
 function initColor()
@@ -218,4 +269,27 @@ function watchColorPicker(event) {
    //   document.querySelectorAll("p").forEach(function(p) {
    //     p.style.color = event.target.value;
    //   });
+}
+
+
+function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  var pixelSize = Math.pow(2, -map.getZoom())*500;
+  heatmap.set('radius', heatmap.get('radius') ? null : pixelSize);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
 }

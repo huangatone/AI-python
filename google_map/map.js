@@ -1,6 +1,6 @@
 var splitter, cont1, cont2;
 var last_x, window_width;
-var map;
+
 var heatmap;
 var excel_sheet;
 var group_list = [];
@@ -11,6 +11,173 @@ var clr=[];
 var band_list = [];
 var band_marker = new Map();
 
+
+
+function DrawCircleExcel(sheet) 
+{
+  console.log("start" ,excel_sheet.length);
+
+
+  var triangleCoords = [
+            //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
+            
+            {lat:43.58196, lng:-79.54477},   
+            {lat:43.75192, lng:-79.636296}, 
+            {lat:43.85472, lng:-79.171026},   
+            {lat:43.79401, lng:-79.118304},      
+                      
+            {lat:43.58196, lng:-79.54477}
+        ];
+
+        // Construct the polygon.
+        var bermudaTriangle = new google.maps.Polygon({
+          paths: triangleCoords
+        });
+
+  var heat_points = [];
+  var ll = 300;
+
+   for(var k=0; k < excel_sheet.length; k++)
+    {
+       grouptext = "";
+        lat = "";
+        lng = "";
+        var row_value = excel_sheet[k];
+      
+       
+        var jsonObj = JSON.stringify(row_value);
+         JSON.parse(jsonObj, (key, value) =>
+            {
+              
+               
+                  if( key.trim() == "CoordX" )
+                  {
+                    lat = value.trim();
+                  }
+                  else if(key.trim() == "CoordY")
+                  {
+                    lng = value.trim();
+                  }
+
+            }); 
+          var pos = new google.maps.LatLng(lng,lat);
+         if( google.maps.geometry.poly.containsLocation(pos, bermudaTriangle))
+         {
+            //console.log("pos in side" );
+            console.log(lat,lng);
+
+            //console.log("create in marker" );
+        /* var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            label: 'dd',
+            icon: getCircle(3.5,'blue')
+          });
+         marker.setMap(map)*/
+
+
+           var cityCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#00FF00',
+              fillOpacity: 0.35,
+              map: map,
+              center: pos,
+              radius:  100
+            });
+
+         heat_points.push(pos);
+
+         }
+
+        
+         
+        
+      }
+      console.log("end" ,excel_sheet.length);
+
+      //lat:43.650315,  lng:-79.338747
+      //lat:43.709606.  lng:-79.440355
+
+      var lat1 = 43.58196;
+      var lat2 = 43.85472;
+      var lng2 = -79.118304;
+      var lng1 = -79.636296;
+      
+
+      var p1 = new google.maps.LatLng(lat1,lng1);
+      var p2 = new google.maps.LatLng(lat2,lng1);
+      var p3 = new google.maps.LatLng(lat1,lng2);
+
+      var w = google.maps.geometry.spherical.computeDistanceBetween(p1,p2);
+      var h = google.maps.geometry.spherical.computeDistanceBetween(p1,p3);
+
+      var nx =  Math.round( w/ll);
+      var ny =  Math.round( h/ll);
+      var offx = (lat2 - lat1)/ nx;
+      var offy = (lng2 - lng1)/ ny;
+
+      
+
+      for(var x=0; x< nx; x++)
+      {
+        for (var y = 0; y<ny; y++) 
+        {
+          //Things[i]
+          var lat_pos = lat1 + x * offx;
+          var lng_pos = lng1 + y * offy;
+          var latlng_pos = new google.maps.LatLng(lat_pos,lng_pos);
+
+          if( google.maps.geometry.poly.containsLocation(latlng_pos, bermudaTriangle)==false)
+          {
+              continue;
+          }
+          var isCover = false;
+          for(var z =0; z< heat_points.length; z++)
+          {
+              var ll_pos = heat_points[z];
+              var h1 = google.maps.geometry.spherical.computeDistanceBetween(latlng_pos,ll_pos);
+              if(h1< ll/2)
+              {
+                isCover = true;
+                break;
+              }
+
+          }
+
+          if(isCover==false)
+          {
+            /*console.log("dd", lat_pos,lng_pos);*/
+            var cityCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: map,
+              center: latlng_pos,
+              radius:  ll/2
+            });
+            
+          }
+        }
+
+      }
+
+        console.log(nx,ny,offx,offy,w,h);
+
+        //43.748015, -79.347933
+
+
+
+
+       /*heatmap = new google.maps.visualization.HeatmapLayer({
+          data: heat_points,
+          map: map
+        });*/
+
+}
 
 
 function formatTable( headers )
@@ -59,7 +226,7 @@ function formatTable( headers )
     });
     table.appendChild(tr);    
 
-console.log("Open and Close");
+    console.log("Open and Close");
     var panel = document.getElementById('menu2');
     console.log(panel);
     panel.style.display = "block"; 
@@ -98,7 +265,7 @@ function CreateMap_selector()  {
     }
     //get lng
     var lng = "";
-     checkboxes = document.getElementsByName("LngRadio");
+    checkboxes = document.getElementsByName("LngRadio");
     for (var i=0; i<checkboxes.length; i++) 
     {
     // And stick the checked ones onto an array...
@@ -116,14 +283,14 @@ function CreateMap_selector()  {
     var table =document.getElementById("mapTable");
 
     //for(var i = table.rows.length -1; i > 0; i--)
-//{
-  //  table.deleteRow(i);
-//}
+    //{
+      //  table.deleteRow(i);
+    //}
 
-for (var x=table.rows.length; x>0; x--) {
+  for (var x=table.rows.length; x>0; x--) {
 
-    table.deleteRow(0);
-}
+      table.deleteRow(0);
+  }
   //table.innerHTML = "";
 
 
@@ -337,7 +504,9 @@ function ExcelExport(event)  {
         console.log(sheetName);        
         // --------------- read 1st sheet ----------------------------------------------        
         excel_sheet = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
-        formatTable( get_header_row( wb.Sheets[sheetName])) ;
+        //formatTable( get_header_row( wb.Sheets[sheetName])) ;
+        console.log("DrawCircleExcel");
+        DrawCircleExcel(wb.Sheets[sheetName]);
     };
 
     var res = reader.readAsBinaryString(input.files[0]);
