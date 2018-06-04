@@ -5,13 +5,147 @@ var heatmap;
 var excel_sheet;
 var group_list = [];
 
-var clr=[];
+
 
 //band list
 var band_list = [];
 var band_marker = new Map();
 
 
+
+
+function  DrawCircleInOut( list, in_sub_poly, out_sub_poly,rat, lat1, lat2, lng1,lng2,clr)
+{
+
+      var p1 = new google.maps.LatLng(lat1,lng1);
+      var p2 = new google.maps.LatLng(lat2,lng1);
+      var p3 = new google.maps.LatLng(lat1,lng2);
+
+      var w = google.maps.geometry.spherical.computeDistanceBetween(p1,p2);
+      var h = google.maps.geometry.spherical.computeDistanceBetween(p1,p3);
+
+      var nx =  Math.round( w/rat);
+      var ny =  Math.round( h/rat);
+      var offx = (lat2 - lat1)/ nx;
+      var offy = (lng2 - lng1)/ ny;
+
+      console.log(nx,ny,offx,offy);
+      
+
+      for(var x=0; x< nx; x++)
+      {
+        for (var y = 0; y<ny; y++) 
+        {
+          //Things[i]
+          var lat_pos = lat1 + x * offx;
+          var lng_pos = lng1 + y * offy;
+          var latlng_pos = new google.maps.LatLng(lat_pos,lng_pos);
+
+          if( google.maps.geometry.poly.containsLocation(latlng_pos, in_sub_poly)==false)
+          {
+              continue;
+          }
+          if(  google.maps.geometry.poly.containsLocation(latlng_pos, out_sub_poly) == true)
+          {
+              continue;
+          }
+          var isCover = false;
+          for(var z =0; z< list.length; z++)
+          {
+              var ll_pos = list[z];
+              var h1 = google.maps.geometry.spherical.computeDistanceBetween(latlng_pos,ll_pos);
+              if(h1< rat/2)
+              {
+                isCover = true;
+                break;
+              }
+
+          }
+
+          if(isCover==false)
+          {
+        
+            var cityCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: clr,
+              fillOpacity: 0.35,
+              map: map,
+              center: latlng_pos,
+              radius:  rat/2
+            });
+            
+          }
+        }
+
+      }
+}
+
+
+function  DrawCircle( list, in_sub_poly,rat, lat1, lat2, lng1,lng2,clr)
+{
+
+      var p1 = new google.maps.LatLng(lat1,lng1);
+      var p2 = new google.maps.LatLng(lat2,lng1);
+      var p3 = new google.maps.LatLng(lat1,lng2);
+
+      var w = google.maps.geometry.spherical.computeDistanceBetween(p1,p2);
+      var h = google.maps.geometry.spherical.computeDistanceBetween(p1,p3);
+
+      var nx =  Math.round( w/rat);
+      var ny =  Math.round( h/rat);
+      var offx = (lat2 - lat1)/ nx;
+      var offy = (lng2 - lng1)/ ny;
+
+      
+
+      for(var x=0; x< nx; x++)
+      {
+        for (var y = 0; y<ny; y++) 
+        {
+          //Things[i]
+          var lat_pos = lat1 + x * offx;
+          var lng_pos = lng1 + y * offy;
+          var latlng_pos = new google.maps.LatLng(lat_pos,lng_pos);
+
+          if( google.maps.geometry.poly.containsLocation(latlng_pos, in_sub_poly)==false)
+          {
+              continue;
+          }
+         
+          var isCover = false;
+          for(var z =0; z< list.length; z++)
+          {
+              var ll_pos = list[z];
+              var h1 = google.maps.geometry.spherical.computeDistanceBetween(latlng_pos,ll_pos);
+              if(h1< rat/2)
+              {
+                isCover = true;
+                break;
+              }
+
+          }
+
+          if(isCover==false)
+          {
+            /*console.log("dd", lat_pos,lng_pos);*/
+            var cityCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: clr,
+              fillOpacity: 0.35,
+              map: map,
+              center: latlng_pos,
+              radius:  rat/2
+            });
+            
+          }
+        }
+
+      }
+}
 
 function DrawCircleExcel(sheet) 
 {
@@ -34,7 +168,23 @@ function DrawCircleExcel(sheet)
           paths: triangleCoords
         });
 
+        var triangleCoords2 = [
+            //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
+            {lat:43.68196, lng:-79.44477},   
+            {lat:43.85192, lng:-79.536296}, 
+            {lat:43.95472, lng:-79.071026},   
+            {lat:43.89401, lng:-79.018304}, 
+            {lat:43.68196, lng:-79.44477}
+           // {lat:43.709606, lng:-79.351491}
+        ];
+
+        var bermudaTriangle2 = new google.maps.Polygon({
+          paths: triangleCoords2
+        });
+
+
   var heat_points = [];
+  var heat_points2 = [];
   var ll = 300;
 
    for(var k=0; k < excel_sheet.length; k++)
@@ -62,33 +212,12 @@ function DrawCircleExcel(sheet)
             }); 
           var pos = new google.maps.LatLng(lng,lat);
          if( google.maps.geometry.poly.containsLocation(pos, bermudaTriangle))
-         {
-            //console.log("pos in side" );
-            console.log(lat,lng);
-
-            //console.log("create in marker" );
-        /* var marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            label: 'dd',
-            icon: getCircle(3.5,'blue')
-          });
-         marker.setMap(map)*/
-
-
-           var cityCircle = new google.maps.Circle({
-              strokeColor: '#FF0000',
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: '#00FF00',
-              fillOpacity: 0.35,
-              map: map,
-              center: pos,
-              radius:  100
-            });
-
-         heat_points.push(pos);
-
+         { 
+            heat_points.push(pos);
+         }
+         if( google.maps.geometry.poly.containsLocation(pos, bermudaTriangle2))
+         { 
+            heat_points2.push(pos);
          }
 
         
@@ -100,83 +229,26 @@ function DrawCircleExcel(sheet)
       //lat:43.650315,  lng:-79.338747
       //lat:43.709606.  lng:-79.440355
 
-      var lat1 = 43.58196;
-      var lat2 = 43.85472;
-      var lng2 = -79.118304;
-      var lng1 = -79.636296;
-      
+      var lat1,lat2,lng1,lng2;
+      var res = getCorner(triangleCoords);
+      lat1 = res[0];
+      lat2 = res[1];
+      lng1 = res[2];
+      lng2 = res[3];
+      console.log(lat1,lat2,lng1,lng2);
+      DrawCircleInOut(heat_points,bermudaTriangle,bermudaTriangle2, ll, lat1,lat2,lng1,lng2, "blue");
 
-      var p1 = new google.maps.LatLng(lat1,lng1);
-      var p2 = new google.maps.LatLng(lat2,lng1);
-      var p3 = new google.maps.LatLng(lat1,lng2);
+ 
+       ll = 200;
 
-      var w = google.maps.geometry.spherical.computeDistanceBetween(p1,p2);
-      var h = google.maps.geometry.spherical.computeDistanceBetween(p1,p3);
-
-      var nx =  Math.round( w/ll);
-      var ny =  Math.round( h/ll);
-      var offx = (lat2 - lat1)/ nx;
-      var offy = (lng2 - lng1)/ ny;
-
-      
-
-      for(var x=0; x< nx; x++)
-      {
-        for (var y = 0; y<ny; y++) 
-        {
-          //Things[i]
-          var lat_pos = lat1 + x * offx;
-          var lng_pos = lng1 + y * offy;
-          var latlng_pos = new google.maps.LatLng(lat_pos,lng_pos);
-
-          if( google.maps.geometry.poly.containsLocation(latlng_pos, bermudaTriangle)==false)
-          {
-              continue;
-          }
-          var isCover = false;
-          for(var z =0; z< heat_points.length; z++)
-          {
-              var ll_pos = heat_points[z];
-              var h1 = google.maps.geometry.spherical.computeDistanceBetween(latlng_pos,ll_pos);
-              if(h1< ll/2)
-              {
-                isCover = true;
-                break;
-              }
-
-          }
-
-          if(isCover==false)
-          {
-            /*console.log("dd", lat_pos,lng_pos);*/
-            var cityCircle = new google.maps.Circle({
-              strokeColor: '#FF0000',
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: '#FF0000',
-              fillOpacity: 0.35,
-              map: map,
-              center: latlng_pos,
-              radius:  ll/2
-            });
-            
-          }
-        }
-
-      }
-
-        console.log(nx,ny,offx,offy,w,h);
-
-        //43.748015, -79.347933
-
-
-
-
-       /*heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heat_points,
-          map: map
-        });*/
-
+      res = getCorner(triangleCoords2);
+      lat1 = res[0];
+      lat2 = res[1];
+      lng1 = res[2];
+      lng2 = res[3];
+      console.log(lat1,lat2,lng1,lng2);
+      //DrawCircle(heat_points2,bermudaTriangle2,ll, lat1,lat2,lng1,lng2,"yellow");
+      console.log("finished job"); 
 }
 
 

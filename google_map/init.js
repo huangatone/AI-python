@@ -3,17 +3,20 @@ var last_x, window_width;
 var map;
 
 var hsplitter, top_div, bom_div;
+var clr=[];
 
 function init() {
-     drawChart();
+    // drawChart();
     initColor();
   
 }
 
+
+
 function initGoogleMap()
 {
   map = new google.maps.Map(document.getElementById('div2'), {
-    zoom: 12,
+    zoom: 9,
     center: {lat:43.667625, lng:-79.367928}
     });
 
@@ -29,6 +32,16 @@ function initGoogleMap()
            // {lat:43.709606, lng:-79.351491}
         ];
 
+var triangleCoords2 = [
+            //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
+            {lat:43.85192, lng:-79.536296},
+            {lat:43.68196, lng:-79.44477},           
+                      
+            {lat:43.89401, lng:-79.018304},
+            {lat:43.95472, lng:-79.071026},  
+            {lat:43.85192, lng:-79.536296}
+           // {lat:43.709606, lng:-79.351491}
+        ];
         // Construct the polygon.
         var bermudaTriangle = new google.maps.Polyline({
           path: triangleCoords,
@@ -39,8 +52,16 @@ function initGoogleMap()
         });
         bermudaTriangle.setMap(map);
 
-        var pixelSize = Math.pow(2, -map.getZoom());
-        console.log(pixelSize);
+
+        var bermudaTriangle2 = new google.maps.Polyline({
+          path: triangleCoords2,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        bermudaTriangle2.setMap(map);
+//getCorner(triangleCoords2);
 
 
          // Construct the polygon, including both paths.
@@ -67,6 +88,32 @@ function initGoogleMap()
 
 
 
+}
+
+
+function getCorner( arr)
+{
+  var lat1, lat2, lng1,lng2;
+  lat1 = arr[0]["lat"];
+  lat2 = arr[0]["lat"];
+  lng1 = arr[0]["lng"];
+  lng2 = arr[0]["lng"];
+  for(var i=1; i < arr.length; i++)
+  {
+      if( arr[i]["lat"] < lat1)
+        lat1= arr[i]["lat"];
+
+      if( arr[i]["lat"] > lat2)
+        lat2= arr[i]["lat"];
+
+      if( arr[i]["lng"] < lng1)
+        lng1= arr[i]["lng"];
+
+      if( arr[i]["lng"] > lng2)
+        lng2= arr[i]["lng"];
+  }
+  
+  return [lat1,lat2,lng1,lng2];
 }
 
 function initColor()
