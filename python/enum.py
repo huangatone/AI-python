@@ -11,7 +11,7 @@ worksheet = workbook.add_worksheet()
 exist_lt = []
 def getIndex():    
     s_number = []
-    while( len( s_number) < 25 ):
+    while( len( s_number) < 20 ):
         nm = random.randint(0,30)
         if( s_number.count(nm) ==0 ):
             s_number.append(nm)
@@ -32,7 +32,7 @@ col = 0
 mmm = getIndex()
 mmm.sort()
 
-total = 736281
+total = 100000
 
 while( row < total):
     lt_index = getIndex()

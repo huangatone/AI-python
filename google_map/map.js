@@ -163,24 +163,24 @@ function DrawCircleExcel(sheet)
             {lat:43.58196, lng:-79.54477}
         ];
 
-        // Construct the polygon.
-        var bermudaTriangle = new google.maps.Polygon({
-          paths: triangleCoords
-        });
+  // Construct the polygon.
+  var bermudaTriangle = new google.maps.Polygon({
+    paths: triangleCoords
+  });
 
-        var triangleCoords2 = [
-            //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
-            {lat:43.68196, lng:-79.44477},   
-            {lat:43.85192, lng:-79.536296}, 
-            {lat:43.95472, lng:-79.071026},   
-            {lat:43.89401, lng:-79.018304}, 
-            {lat:43.68196, lng:-79.44477}
-           // {lat:43.709606, lng:-79.351491}
-        ];
+  var triangleCoords2 = [
+      //{lat:43.673674, lng:-79.425337},//43.673674, -79.425337
+      {lat:43.68196, lng:-79.44477},   
+      {lat:43.85192, lng:-79.536296}, 
+      {lat:43.95472, lng:-79.071026},   
+      {lat:43.89401, lng:-79.018304}, 
+      {lat:43.68196, lng:-79.44477}
+     // {lat:43.709606, lng:-79.351491}
+  ];
 
-        var bermudaTriangle2 = new google.maps.Polygon({
-          paths: triangleCoords2
-        });
+  var bermudaTriangle2 = new google.maps.Polygon({
+    paths: triangleCoords2
+  });
 
 
   var heat_points = [];
@@ -229,25 +229,13 @@ function DrawCircleExcel(sheet)
       //lat:43.650315,  lng:-79.338747
       //lat:43.709606.  lng:-79.440355
 
-      var lat1,lat2,lng1,lng2;
-      var res = getCorner(triangleCoords);
-      lat1 = res[0];
-      lat2 = res[1];
-      lng1 = res[2];
-      lng2 = res[3];
-      console.log(lat1,lat2,lng1,lng2);
-      DrawCircleInOut(heat_points,bermudaTriangle,bermudaTriangle2, ll, lat1,lat2,lng1,lng2, "blue");
-
+     
+      var res = getCorner(triangleCoords);     
+      DrawCircleInOut(heat_points,bermudaTriangle,bermudaTriangle2, ll, res[0],res[1],res[2],res[3], "blue");
  
-       ll = 200;
-
-      res = getCorner(triangleCoords2);
-      lat1 = res[0];
-      lat2 = res[1];
-      lng1 = res[2];
-      lng2 = res[3];
-      console.log(lat1,lat2,lng1,lng2);
-      //DrawCircle(heat_points2,bermudaTriangle2,ll, lat1,lat2,lng1,lng2,"yellow");
+      ll = 200;
+      res = getCorner(triangleCoords2);     
+      DrawCircle(heat_points2,bermudaTriangle2,ll, res[0],res[1],res[2],res[3],"yellow");
       console.log("finished job"); 
 }
 
