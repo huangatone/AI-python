@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bell </title>
+ 
+  <style>
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    padding: 8px;
+    background-color: #F6F6F6;
+    box-sizing: border-box;
+  }
+
+  .split {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .content {
+    border: 1px solid #C0C0C0;
+    box-shadow: inset 0 1px 2px #e4e4e4;
+    background-color: #fff;
+  }
+
+  .gutter {
+    background-color: transparent;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url('/rong/project/web/grips/vertical.png');
+  }
+
+  .gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url('/rong/project/web/grips/horizontal.png');
+  }
+
+  .split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+  }
+
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc; 
+}
+
+.accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: white;
+    overflow: scroll;
+}
+  </style>
+
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   
+
+   <script src= "init.js"> </script>
+    <script src= "map.js"> </script>
+    <script src="split.js"></script>
+    
+
+     <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+     
+    </script>
+
+
+    
+    
+     <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQMC-XDcbgfPtySwq9J4AL2uG8tZXuTUo&callback&libraries=visualization&callback=initGoogleMap">
+    </script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry" type="text/javascript"></script> 
+    <!-- 
+     -->
+   
+</head>
+<body onload="init();">
+    <div id="a" class="split split-horizontal">
+      <div id="c" class="split content">
+            <button class="accordion" Sibling= "menu1">1. Select File </button>
+            <div class="panel" id ="menu1">
+                <form >     
+                 <fieldset>
+                    <h5>excel File</h5> 
+                  <input type="file" id="file" ng-model="csvFile"  onchange='ExcelExport(event)'/>
+
+                   </fieldset>
+                </form>
+            </div>
+
+            <button class="accordion"  Sibling= "menu2">2. Choose elements </button>
+
+            <div class="panel" id ="menu2">
+                <h4 id = "highband"> Choose Column for each item </h2>
+                <button onclick="CreateMap_selector()" height = "30px">Generate </button>
+                <table border = 1 id = "paremeterTable">
+                    <tr id = "field_name"> 
+                        <td> Group </td> <td> Lat </td>  <td> Lng</td>
+                    </tr>       
+                </table>
+            </div>
+
+            <button class="accordion"  Sibling= "menu3">3. Create Markers</button>
+            <div class="panel" id ="menu3">
+                
+                <table border = 1 id = "mapTable">
+                         
+                </table>
+            </div>
+
+            <button class="accordion"  Sibling= "piechart">4. Show Chart</button>
+            <div  id="piechart" style="width: 300px; height: 300px; display: none"></div>
+
+            <button class="accordion"  Sibling= "menu5">5. About</button>
+            <div class="panel" id ="menu5">
+                
+            </div>
+      </div>
+     
+    </div>
+    <div id="b" class="split split-horizontal">
+      <div id="div2" class="split content"></div>
+      <div id="f" class="split content"></div>
+    </div>
+</body>
+
+<script>
+
+    initMenu();
+    Split(['#a', '#b'], {
+        sizes: [20, 80],
+      gutterSize: 8,
+      cursor: 'col-resize'
+    })
+
+   
+
+    Split(['#div2', '#f'], {
+      direction: 'vertical',
+      sizes: [80, 20],
+      gutterSize: 8,
+      cursor: 'row-resize'
+    })
+
+    
+</script>
+</html>

@@ -147,6 +147,39 @@ function  DrawCircle( list, in_sub_poly,rat, lat1, lat2, lng1,lng2,clr)
       }
 }
 
+
+
+function  DrawExistCircle( list, in_sub_poly,rat, lat1, lat2, lng1,lng2,clr)
+{
+
+      var p1 = new google.maps.LatLng(lat1,lng1);
+      var p2 = new google.maps.LatLng(lat2,lng1);
+      var p3 = new google.maps.LatLng(lat1,lng2);
+
+      var w = google.maps.geometry.spherical.computeDistanceBetween(p1,p2);
+      var h = google.maps.geometry.spherical.computeDistanceBetween(p1,p3);
+
+      var nx =  Math.round( w/rat);
+      var ny =  Math.round( h/rat);
+      var offx = (lat2 - lat1)/ nx;
+      var offy = (lng2 - lng1)/ ny;
+
+      for(var z =0; z< list.length; z++)
+      {
+          var ll_pos = list[z];             
+
+          var cityCircle = new google.maps.Circle({            
+          center: ll_pos,
+          radius:  rat/2
+          });
+
+      }
+      
+
+     
+}
+
+
 function DrawCircleExcel(sheet) 
 {
   console.log("start" ,excel_sheet.length);
