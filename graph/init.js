@@ -7,7 +7,7 @@ var clr=[];
 
 function init() {
    
-  build_chart();
+  //build_chart();
 }
 
  //checkbox click event

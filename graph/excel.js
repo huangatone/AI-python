@@ -1,81 +1,15 @@
 //------------ read xml file ------------------------------
 var headers = [];
 var excel_sheet;
+var column_map = new Map();
+var group_label = ""
 
 //-------------------
 
 
 function ReadSheet( xmlSheet, group_label, data1, data2)
 {
-   // console.log( "label length= " + group_label.length);
-    var lb=[]; 
-    lb.push('x');
-    var value1=[];
-    value1.push('v1');// "v1";
-    var value2 =[];
-    value2.push('v2');
    
-    var lat, date_value;
-   
-    //console.log(group_label, lat_label);
-
-    for(var k=0; k < xmlSheet.length; k++)
-    {
-       
-        var row_value = xmlSheet[k];
-       
-        var jsonObj = JSON.stringify(row_value);
-        JSON.parse(jsonObj, (key, value) =>
-        {
-          
-            if( key.trim() == group_label)
-            {
-                lb.push( "\'" + value.trim() +"\'");
-            }
-             if(key.trim() == data1.trim())
-              {
-                value1.push( value.trim());
-              }
-            if(key.trim() == data2.trim())
-              {
-                value2.push( value.trim());
-              }
-
-        }); 
-    }
- console.log( lb + " , " + value1  + " , " + value2);
-    
-    var chart = c3.generate({
-    bindto: '#div2',
-    //data: {
-    //    rows: [
-    //        lb,
-    //        value1,
-    //        value2
-    //    ]
-   // },
-    data: {
-        x: 'x',
-        columns: [
-            lb,
-            value1,
-            value2
-        ]
-    },
-        
-    axis: {
-        x: {
-            type: 'category',
-            tick: {
-           //     rotate: 75,
-                multiline: false
-            },
-            height: 130
-        }
-    }
-    
-});
-    
    //GeneratorData();
 }
 //------------
@@ -132,78 +66,48 @@ function get_header_row(sheet) {
 }
 
 function formatTable( headers )
-    {
+{
     var table =document.getElementById("paremeterTable");
-   
-    for(var n=0; n< 3; n++)
-        {
-             var tr1 = document.createElement('tr');
-            var g1 = document.createElement('td'); 
-            var c1 = document.createElement("INPUT");
-            c1.setAttribute("type", "checkbox");
-            c1.name = "c1";
-            c1.value = 1;
-
-            var x1  = document.createElement('td');  
-            var x_c1 = document.createElement("SELECT");
-            x_c1.setAttribute("id", "x_c"+n.toString());
-            var y1 = document.createElement('td'); 
-            var y_c1 = document.createElement("SELECT");
-            y_c1.setAttribute("id", "y_c"+n.toString());
-            
-            console.log("y_c"+n.toString());
-
-            g1.appendChild(c1);
-            x1.appendChild(x_c1);
-            y1.appendChild(y_c1);
-            tr1.appendChild(g1);
-            tr1.appendChild(x1);
-            tr1.appendChild(y1);
-            table.appendChild(tr1);  
-            
-            
-            var  opt = document.createElement('option');
-                opt.value = 0;
-                opt.innerHTML = "";
-                x_c1.appendChild(opt);
-                
-                var  opt1 = document.createElement('option');
-                opt1.value = 0;
-                opt1.innerHTML = "";
-                y_c1.appendChild(opt1);
-                
-            headers.forEach(function(h)
-            {
-                
-                var  opt = document.createElement('option');
-                opt.value = 0;
-                opt.innerHTML = h;
-                x_c1.appendChild(opt);
-                
-                var  opt1 = document.createElement('option');
-                opt1.value = 0;
-                opt1.innerHTML = h;
-                y_c1.appendChild(opt1);
-
-
-            });
-     }
+    //add group
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');  
+  
+    
+    headers.forEach(function(h)
+    {
+        var ol = document.createElement('li');
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "checkbox");
+        x.name = "GroupCK";
+        x.value = h;
+        ol.appendChild(x);
+        ol.appendChild(document.createTextNode(h));
+        td.appendChild(ol);
+        tr.appendChild(td);
+        
+    });
+    table.appendChild(tr);  
    
 }
 
-function build_chart()
+function build_chart(lb,value1,value2)
 {
+
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+      console.log(key , value);
+        data_ss.push(value);
+    }
+    
   var chart = c3.generate({
     bindto: '#div2',
+   
     data: {
         x: 'x',
-        columns: [
-           ['x', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff'],
-  //          ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
-            ['data1', "30", "200", "100", "400", "150", "250"],
-            ['data2', '130', '340', '200', '500', '250', '350']
-        ]
+        columns: data_ss
     },
+        
     axis: {
         x: {
             type: 'category',
@@ -217,9 +121,34 @@ function build_chart()
     
 });
 }
-function build_line_chat()
+function build_line_chat(lb,value1,value2)
 {
+    var d =document.getElementById("b");
+    var sd = document.createElement('div'); 
+    sd.setAttribute("id", "line_chat_div");
+    d.appendChild(sd);
     
+    var chart = c3.generate({
+    bindto: '#line_chat_div',
+    data: {
+        rows: [
+            lb,
+            value1,
+            value2
+        ]
+    },    
+    axis: {
+        x: {
+            type: 'category',
+            tick: {
+           //     rotate: 75,
+                multiline: false
+            },
+            height: 130
+        }
+    }
+    
+});
 }
 
 function build_pie_chart()
@@ -281,6 +210,11 @@ function build_Combination_chart()
 {
     
 }
+function build_map_chart()
+{
+    
+}
+
 
 
 
@@ -289,11 +223,76 @@ function build_Combination_chart()
 
 function build_choise()
 {
-    var x_c1 = document.getElementById("x_c0");
-    var y_c1 = document.getElementById("y_c0");
-    var v1 =x_c1.options[x_c1.selectedIndex].text;
-    console.log(v1);
-    var v2 =y_c1.options[y_c1.selectedIndex].text;
-    console.log(v2);
-    ReadSheet(excel_sheet,"label",v1,v2);
+    var checkboxes = document.getElementsByName("GroupCK");
+    var col_selected = [];
+    // loop over them all
+    for (var i=0; i<checkboxes.length; i++) 
+    {
+    // And stick the checked ones onto an array...
+        if (checkboxes[i].checked) {
+        col_selected.push(checkboxes[i].value);
+           // alert(checkboxes[i].value);
+        }
+    }
+    group_label = checkboxes[0].value;
+    
+   
+    var lb=[]; 
+    lb.push('x');
+    var value1=[];
+    //value1.push('v1');// "v1";
+    var value2 =[];
+    //value2.push('v2');
+   
+    var lat, date_value;
+   
+    //console.log(group_label, lat_label);
+
+    for(var k=0; k < excel_sheet.length; k++)
+    {
+       
+        var row_value = excel_sheet[k];
+       
+        var jsonObj = JSON.stringify(row_value);
+        JSON.parse(jsonObj, (key, value) =>
+        {
+          var key_str = key.trim();
+          var date_value = value;
+          if( key_str == group_label)
+            {
+                lb.push(  value.trim());
+            }
+            else
+            {
+                for (var i=0; i<col_selected.length; i++) 
+                {
+                    if( key_str == col_selected[i].trim())
+                    {
+                       if(column_map.has(key_str) == false)
+                        {    
+                            var m = [];
+                             m.push(key_str);
+                            m.push(date_value);
+                            column_map.set(key_str, m);                	
+                        }
+                        else
+                        {
+                            var m = column_map.get(key_str);
+                             m.push(date_value);
+                            column_map.set(key_str, m);  
+                        }
+                    }
+                }
+            }
+            
+          
+        }); 
+    }
+    
+    value1 = column_map.get(checkboxes[2].value);
+    value2 = column_map.get(checkboxes[1].value);
+    console.log( lb + " , " + column_map.get(0)  + " , " + column_map.get(1));
+    
+    build_chart(lb,value1,value2);
+    build_line_chat(lb,value1,value2);
 }

@@ -128,10 +128,10 @@
            
 
             <div class="panel" id ="menu2">
-                <h4 id = "highband"> Choose XY</h2>              
+                <h4 id = "highband"> Choose Columns</h2>              
                 <table border = 1 id = "paremeterTable">
                     <tr id = "field_name"> 
-                        <td>   </td> <td> X </td>  <td> Y</td>
+                        <td>   </td> 
                     </tr>       
                 </table>
                 
@@ -140,9 +140,21 @@
            
             <div class="panel" id ="menu3">
                 <p>Chart</p>
-                <input type="checkbox" name="gender" value="male" checked> Male<br>
-                <input type="checkbox" name="gender" value="female"> Female<br>
-                <input type="checkbox" name="gender" value="other"> Other<br><br>
+                <input type="checkbox" id="line_chat_ck" value="male" > line_chat<br>
+                <input type="checkbox" id="pie_chart_ck" value="female"> pie_chart<br>
+                <input type="checkbox" id="time_chart_ck" value="other"> time_chart<br>
+                <input type="checkbox" id="spine_chart_ck" value="male" > spine_chart<br>
+                <input type="checkbox" id="step_chart_ck" value="female"> step_chart<br>
+                <input type="checkbox" id="area_chart_ck" value="other"> area_chart<br>
+                <input type="checkbox" id="stackarea_chart_ck" value="male" > stackarea_chart<br>
+                <input type="checkbox" id="bar_chart_ck" value="female"> bar_chart<br>
+                <input type="checkbox" id="scatter_chart_ck" value="other"> scatter_chart<br>
+                
+                <input type="checkbox" id="donut_chart_ck" value="female"> donut_chart<br>
+                <input type="checkbox" id="gauge_chart_ck" value="other"> gauge_chart<br>
+                <input type="checkbox" id="Combination_chart_ck" value="male" > Combination_chart<br>
+                <input type="checkbox" id="map_chart_ck" value="female">map_chart<br>
+            
                  <button onclick="build_choise()">Build</button>
             </div>
 
@@ -157,8 +169,8 @@
      
     </div>
     <div id="b" class="split split-horizontal">
-      <div id="div2" class="split content"></div>
-      <div id="f" class="split content"></div>
+      <div id="div2" class="aa">Charts</div>
+      <div id="f" class="aa">Thanks!</div>
     </div>
 </body>
 
@@ -172,14 +184,6 @@
     })
 
    
-
-    Split(['#div2', '#f'], {
-      direction: 'vertical',
-      sizes: [80, 20],
-      gutterSize: 8,
-      cursor: 'row-resize'
-    })
-
     
 </script>
 </html>
