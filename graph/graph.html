@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bell </title>
+ 
+  <style>
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    padding: 8px;
+    background-color: #F6F6F6;
+    box-sizing: border-box;
+  }
+
+  .split {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .content {
+    border: 1px solid #C0C0C0;
+    box-shadow: inset 0 1px 2px #e4e4e4;
+    background-color: #fff;
+  }
+
+  .gutter {
+    background-color: transparent;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url('/rong/project/web/grips/vertical.png');
+  }
+
+  .gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url('/rong/project/web/grips/horizontal.png');
+  }
+
+  .split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+  }
+
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc; 
+}
+
+.accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.panel {
+    padding: 0 18px;
+    display: block;
+    background-color: white;
+    overflow: scroll;
+}
+  </style>    
+
+    <!-- Load c3.css -->
+  <link href="c3/c3.css" rel="stylesheet">
+
+  <!-- Load d3.js and c3.js -->
+ 
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="c3/c3.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
+
+   <script src= "init.js"> </script>  
+   <script src="split.js"></script>  
+   <script src="excel.js"></script> 
+  
+
+     
+   
+</head>
+<body onload="init();">
+    <div id="a" class="split split-horizontal">
+      <div id="c" class="split content">
+           
+            <div class="panel" id ="menu1">
+                <form >     
+                 <fieldset>
+                    <h5>excel File</h5> 
+                  <input type="file" id="file" ng-model="csvFile"  onchange='ExcelExport(event)'/>
+
+                   </fieldset>
+                </form>
+            </div>
+
+           
+
+            <div class="panel" id ="menu2">
+                <h4 id = "highband"> Choose XY</h2>              
+                <table border = 1 id = "paremeterTable">
+                    <tr id = "field_name"> 
+                        <td>   </td> <td> X </td>  <td> Y</td>
+                    </tr>       
+                </table>
+                
+            </div>
+
+           
+            <div class="panel" id ="menu3">
+                <p>Chart</p>
+                <input type="checkbox" name="gender" value="male" checked> Male<br>
+                <input type="checkbox" name="gender" value="female"> Female<br>
+                <input type="checkbox" name="gender" value="other"> Other<br><br>
+                 <button onclick="build_choise()">Build</button>
+            </div>
+
+            
+            <div  id="piechart" style="width: 300px; height: 300px; display: none"></div>
+
+           
+            <div class="panel" id ="menu5">
+                
+            </div>
+      </div>
+     
+    </div>
+    <div id="b" class="split split-horizontal">
+      <div id="div2" class="split content"></div>
+      <div id="f" class="split content"></div>
+    </div>
+</body>
+
+<script>
+
+    initMenu();
+    Split(['#a', '#b'], {
+        sizes: [20, 80],
+      gutterSize: 8,
+      cursor: 'col-resize'
+    })
+
+   
+
+    Split(['#div2', '#f'], {
+      direction: 'vertical',
+      sizes: [80, 20],
+      gutterSize: 8,
+      cursor: 'row-resize'
+    })
+
+    
+</script>
+</html>

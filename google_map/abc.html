@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Custom Symbols (Marker)</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // This example uses SVG path notation to add a vector-based symbol
+      // as the icon for a marker. The resulting icon is a star-shaped symbol
+      // with a pale yellow fill and a thick yellow border.
+
+
+
+      function drawArcRon( a1,a2 ) { 
+    
+      var r2d = 180 / Math.PI;   // radians to degrees 
+         var points = 32; 
+        var extp = new Array();   
+        var str = ' 0,0 ';
+        var deltaBearing =  a2/points;
+        var sz = new google.maps.Size(25, 25);
+        sz.width;
+        for (var i=0; (i < points+1); i++) 
+        { 
+          //console.log("ddgg ",  Math.sin( (a1 + deltaBearing*i)/ 180) , Math.cos( (a1 + deltaBearing*i)/ 180) );
+         var x =  sz.width* Math.sin( (a1 + deltaBearing*i)/r2d);
+         var y =  sz.width* Math.cos( (a1 + deltaBearing*i)/r2d);
+          extp.push(  (10* Math.sin( (a1 + deltaBearing)/ Math.PI), 10 * Math.cos( (a1 + deltaBearing)/ Math.PI )) ); 
+
+          str += x.toString() + ',' + y.toString() + ' ';
+          //bounds.extend(extp[extp.length-1]);
+        } 
+        str += ' 0,0 ';
+
+        
+        return str;
+      }
+
+
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: -25.363882, lng: 131.044922}
+        });
+
+
+        var arcPts = drawArcRon(30.0,60.0);
+
+        arcPts += drawArcRon(120.0,45.0);
+        arcPts += drawArcRon(200.0,45.0);
+
+        arcPts = ' M ' + arcPts + ' z';
+ 
+        //console.log("dd", arcPts)
+
+
+        var goldStar = {
+          //path: 'M 0,0 0,10 10,0 0,0 0,-10,-10,0 0,0 z',
+          path: arcPts,
+          fillColor: 'yellow',
+          fillOpacity: 0.8,
+          scale: 1,
+          strokeColor: 'blue',
+          strokeWeight: 2
+        };
+
+        var marker = new google.maps.Marker({
+          position: map.getCenter(),
+          icon: goldStar,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEl0wlUjzXvMvnY379de-WHOf1eaMNDtM&callback=initMap">
+    </script>
+
+  </body>
+</html>

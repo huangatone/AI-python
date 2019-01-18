@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Custom Symbols (Marker)</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+  font-family: Arial;
+  background: #222;
+  font-size: 14px;
+  color: #bbb;
+}
+
+#header {
+  color: green;
+}
+
+#payload {
+  color: orange;
+}
+
+#signature {
+  color: red;
+}
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js"></script>
+    <script>
+      var header = 
+      {
+        "alg": "HS256",
+        "typ": "JWT"
+      };
+
+
+
+      function base64url(source) 
+      {
+        // Encode in classical base64
+        encodedSource = CryptoJS.enc.Base64.stringify(source);
+        
+        // Remove padding equal characters
+        encodedSource = encodedSource.replace(/=+$/, '');
+        
+        // Replace characters according to base64url specifications
+        encodedSource = encodedSource.replace(/\+/g, '-');
+        encodedSource = encodedSource.replace(/\//g, '_');
+        
+        return encodedSource;
+      }
+
+      function encodeFile(h,d,s)
+      {
+        var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(h));
+        var encodedHeader = base64url(stringifiedHeader);
+        document.getElementById("header").innerText = encodedHeader;
+
+        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(d));
+        var encodedData = base64url(stringifiedData);
+        document.getElementById("payload").innerText = encodedData;
+
+        var signature = encodedHeader + "." + encodedData;
+        signature = CryptoJS.HmacSHA256(signature, s);
+        signature = base64url(signature);
+
+        var ret = encodedHeader + '.' + encodedData + '.' +signature;
+
+return ret;
+       // return signature;
+      }
+
+      var openFile = function(event) 
+      {
+        var secret = document.getElementById("secrt").value ;
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function(){
+        var text = reader.result;
+
+
+
+        var json = '';
+        json += '{\n';
+        json += '"id": "58e527d9-bcd7-47a7-b8b4-65fd3d9b1f47",\n';
+        json += '"name": "A1",\n';
+        json += '"values": [\n';
+          // By lines
+        var lines = text.split('\n');
+        for(var line = 0; line < lines.length; line++)
+        {
+          var str_line = lines[line].split( ' ');
+          var data = 
+          {
+            "sessionId": document.getElementById('sessionID').value ,
+            "url": str_line[1]
+          };
+          var k = encodeFile(header,data,secret);
+
+          json += ' {\n';
+          json += '"key": "' + str_line[0] + '",\n';
+          json += '"value": "Bearer ' + k + '",\n';
+          json += '"description": " ",\n';
+          json += '"enabled": true\n}';
+
+          if(line != lines.length -1)
+            json += ',\n';
+        
+
+        }
+        json += '],\n';
+
+          json += '"_postman_variable_scope": "environment",\n  "_postman_exported_at": "2018-12-14T18:36:20.239Z",\n  "_postman_exported_using": "Postman/6.6.1"\n}';
+
+          var node = document.getElementById('output');
+          node.innerText = json;
+         // console.log(reader.result.substring(0, 200));
+        };
+        reader.readAsText(input.files[0]);
+      };
+    </script>
+
+  </head>
+  <body >
+    <form>
+      sessionID <input type="text" id="sessionID" size="100" value='d352e0a8-a08e-4d56-a4e1-c34ca5e49c6u'><br>
+      url list. <input type="text" name="url" size="300"><br>
+      <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+   
+      secret <input type="text" id="secrt" size="100" value='dfPhp2018!'><br>
+      <button type="button">Click Me!</button>
+    </form>
+   <p>
+  <strong>JSON Web Token:</strong><br/>
+  <span id="header"></span>.<span id="payload"></span>.<span id="signature"></span>
+</p>
+
+ <div id='output'>
+    ...
+    </div>
+
+
+
+  
+
+  </body>
+</html>

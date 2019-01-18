@@ -331,7 +331,8 @@ function formatTable( headers )
 }
 
 
-function CreateMap_selector()  {
+function CreateMap_selector()  
+{
     //alert("hahaha");
     //get group
     var checkboxes = document.getElementsByName("GroupCK");
@@ -516,6 +517,8 @@ function ReadSheet( xmlSheet, group_label, lat_label, lng_lable)
            grouptext = "";
             lat = "";
             lng = "";
+            var st = 0;
+            var arc = 0;
             var row_value = xmlSheet[k];
           
            
@@ -542,6 +545,10 @@ function ReadSheet( xmlSheet, group_label, lat_label, lng_lable)
                   {
                     lng = value.trim();
                   }
+                  else if( key.trim() == "Azimuth")
+                    st = value.trim();
+                   else if( key.trim() == "Beamwidth")
+                    arc = value.trim();
 
             }); 
            // console.log( grouptext + " , " + lat  + " , " + lng);
@@ -554,7 +561,7 @@ function ReadSheet( xmlSheet, group_label, lat_label, lng_lable)
 				band_marker.set(grouptext, m);                	
 			}
 
-			createMarker(band_marker.get(grouptext),name,lng,lat,clr[band_list.indexOf(grouptext)]);
+			createMarker(band_marker.get(grouptext),name,lng,lat,clr[band_list.indexOf(grouptext)],st,arc);
 
       ll.push( new google.maps.LatLng(lat, lng))
 			                        

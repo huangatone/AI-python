@@ -192,17 +192,63 @@ function getCircle(magnitude,c)
     };
 }
 
+ function drawArcRon( a1,a2 ) { 
+    
+      var r2d = 180 / Math.PI;   // radians to degrees 
+         var points = 32; 
+        var extp = new Array();   
+        var str = ' 0,0 ';
+        var deltaBearing =  a2/points;
+        for (var i=0; (i < points+1); i++) 
+        { 
+          console.log("ddgg ",  Math.sin( (a1 + deltaBearing*i)/ 180) , Math.cos( (a1 + deltaBearing*i)/ 180) );
+         var x = 20* Math.sin( (a1 + deltaBearing*i)/r2d);
+         var y = 20* Math.cos( (a1 + deltaBearing*i)/r2d);
+          extp.push(  (10* Math.sin( (a1 + deltaBearing)/ Math.PI), 10 * Math.cos( (a1 + deltaBearing)/ Math.PI )) ); 
+
+          str += x.toString() + ',' + y.toString() + ' ';
+          //bounds.extend(extp[extp.length-1]);
+        } 
+        str += ' 0,0 ';
+
+        
+        return str;
+      }
+
 //create a marker
-function createMarker(group,name,lng,lat,c)
+function createMarker(group,name,lng,lat,c,st,arc)
 {
     var latLng = new google.maps.LatLng(  lat,lng);
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    var marker = new google.maps.Marker({
-            position: latLng,
-            map: null,
-            label: null,
-            icon: getCircle(3.0,c)
-          });
+
+
+
+        var arcPts = drawArcRon(st,arc);
+
+        //arcPts += drawArcRon(120.0,45.0);
+
+        arcPts = ' M ' + arcPts + ' z';
+ 
+        console.log("dd", arcPts)
+
+
+        var goldStar = {
+          //path: 'M 0,0 0,10 10,0 0,0 0,-10,-10,0 0,0 z',
+          path: arcPts,
+          fillColor: 'yellow',
+          fillOpacity: 0.8,
+          scale: 1,
+          strokeColor: 'blue',
+          strokeWeight: 2
+        };
+
+        var marker = new google.maps.Marker({
+          position: latLng,
+          icon: goldStar,
+          map: map
+        });
+
+
 
     var infowindow = new google.maps.InfoWindow({
       content: "test information"
