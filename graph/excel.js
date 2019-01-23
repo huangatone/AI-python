@@ -4,6 +4,7 @@ var excel_sheet;
 var column_map = new Map();
 var group_label = ""
 
+
 //-------------------
 
 
@@ -96,7 +97,7 @@ function build_chart(lb,value1,value2)
     var data_ss = []
     data_ss.push(lb);
     for (var [key, value] of column_map) {
-      console.log(key , value);
+      
         data_ss.push(value);
     }
     
@@ -121,22 +122,112 @@ function build_chart(lb,value1,value2)
     
 });
 }
-function build_line_chat(lb,value1,value2)
+
+function build_line_chat(lb)
 {
-    var d =document.getElementById("b");
-    var sd = document.createElement('div'); 
-    sd.setAttribute("id", "line_chat_div");
-    d.appendChild(sd);
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "line_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
     
-    var chart = c3.generate({
-    bindto: '#line_chat_div',
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {      
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#line_chart_div',
+   
     data: {
-        rows: [
-            lb,
-            value1,
-            value2
-        ]
-    },    
+        x: 'x',
+        columns: data_ss
+    },
+        
+    axis: {
+        x: {
+            type: 'category',
+            tick: {
+           //     rotate: 75,
+                multiline: false
+            },
+            height: 130
+        }
+    }
+    
+  });
+}
+
+function build_pie_chart(lb)
+{
+    console.log("build_pie_chart");
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "par_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {     
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#par_chart_div',
+   
+    data: {
+       
+        columns: data_ss,
+        type : 'pie',
+    }
+    
+  });
+}
+
+function build_time_chart(lb)
+{
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "time_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+}
+
+function build_spine_chart(lb)
+{
+    console.log("build_spine_chart");
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "spine_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+      
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#spine_chart_div',
+   
+    data: {
+        x: 'x',
+        columns: data_ss,
+        type: 'spline'
+    },
+        
     axis: {
         x: {
             type: 'category',
@@ -151,71 +242,259 @@ function build_line_chat(lb,value1,value2)
 });
 }
 
-function build_pie_chart()
+function build_step_chart(lb)
 {
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "step_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+    
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+     
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#step_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'step'
+    }
+    
+});
     
 }
 
-function build_time_chart()
+function build_area_chart(lb)
 {
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "area_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+     var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+    
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#area_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'area'
+    }
+    
+});
+}
+
+function build_stackarea_chart(lb)
+{
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "stackarea_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+     var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+     
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#stackarea_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'area-spline'
+    }
+    
+});
+}
+
+function build_bar_chart(lb)
+{
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "bar_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+    
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#bar_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'bar'
+    }
+    
+});
+}
+
+function build_stackbar_chart(lb)
+{
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "stackbar_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+    
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#stackbar_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'area-spline'
+    }
+    
+});
     
 }
 
-function build_spine_chart()
+function build_scatter_chart(lb)
 {
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "scatter_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
     
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+    
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#scatter_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'scatter'
+    }
+    
+});
 }
 
-function build_step_chart()
+function build_donut_chart(lb)
 {
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "donut_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
     
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+      
+        data_ss.push(value);
+    }
+    
+  var chart = c3.generate({
+    bindto: '#donut_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'donut'
+    }
+    
+});
 }
 
-function build_area_chart()
+function build_gauge_chart(lb)
 {
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "gauge_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
+    var data_ss = []
+    data_ss.push(lb);
+    for (var [key, value] of column_map) {
+      
+        data_ss.push(value);
+    }
     
+  var chart = c3.generate({
+    bindto: '#gauge_chart_div',
+   
+    data: {
+      
+        columns: data_ss,
+        type: 'gauge'
+    }
+    
+});
 }
 
-function build_stackarea_chart()
+function build_Combination_chart(lb)
 {
-    
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "Combination_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
 }
-
-function build_bar_chart()
+function build_map_chart(lb)
 {
-    
+    var cc = document.getElementById('b');
+   
+    var dv = document.createElement('div');
+    dv.setAttribute("id", "spine_chart_div");
+    dv.setAttribute("class","Chart_Div");
+    //dv.setAttribute("style", "height:320;width:400px;background-color:teal;float:left;padding:0;");
+    cc.appendChild(dv);
 }
-
-function build_stackbar_chart()
-{
-    
-}
-
-function build_scatter_chart()
-{
-    
-}
-
-function build_donut_chart()
-{
-    
-}
-
-function build_gauge_chart()
-{
-    
-}
-
-function build_Combination_chart()
-{
-    
-}
-function build_map_chart()
-{
-    
-}
-
-
 
 
 
@@ -289,10 +568,71 @@ function build_choise()
         }); 
     }
     
-    value1 = column_map.get(checkboxes[2].value);
-    value2 = column_map.get(checkboxes[1].value);
-    console.log( lb + " , " + column_map.get(0)  + " , " + column_map.get(1));
+   
     
-    build_chart(lb,value1,value2);
-    build_line_chat(lb,value1,value2);
+    var ck = document.getElementById("line_chat_ck");
+    if (ck.checked)
+    {
+        build_line_chat(lb);
+    }
+    ck = document.getElementById("pie_chart_ck");
+    if (ck.checked)
+    {
+        build_pie_chart(lb);
+    }
+    ck = document.getElementById("time_chart_ck");
+    if (ck.checked)
+    {
+       // build_time_chart(lb);
+    }
+    ck = document.getElementById("spine_chart_ck");
+    if (ck.checked)
+    {
+        build_spine_chart(lb);
+    }
+    ck = document.getElementById("step_chart_ck");
+    if (ck.checked)
+    {
+        build_step_chart(lb);
+    }
+    ck = document.getElementById("area_chart_ck");
+    if (ck.checked)
+    {
+        build_area_chart(lb);
+    }
+    ck = document.getElementById("stackarea_chart_ck");
+    if (ck.checked)
+    {
+        build_stackarea_chartt(lb);
+    }
+    ck = document.getElementById("bar_chart_ck");
+    if (ck.checked)
+    {
+        build_bar_chart(lb);
+    }
+    ck = document.getElementById("scatter_chart_ck");
+    if (ck.checked)
+    {
+        //build_scatter_chart(lb);
+    }
+    ck = document.getElementById("donut_chart_ck");
+    if (ck.checked)
+    {
+        build_donut_chart(lb);
+    }
+    ck = document.getElementById("gauge_chart_ck");
+    if (ck.checked)
+    {
+        build_gauge_chart(lb);
+    }
+    ck = document.getElementById("Combination_chart_ck");
+    if (ck.checked)
+    {
+        //build_Combination_chart(lb);
+    }
+    ck = document.getElementById("map_chart_ck");
+    if (ck.checked)
+    {
+        //build_map_chart(lb);
+    }
 }
